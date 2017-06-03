@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import '../css/App.css';
 import Login from './Login';
+import Insurance from './Insurance';
 
 class App extends Component {
 
@@ -19,7 +19,10 @@ class App extends Component {
     return (
       <div className="App">
           {!this.state.logged && 
-              <Login login={this.status}/>
+              <Login login={this.status} />
+          }
+          {this.state.logged &&
+              <Insurance logout={this.status} />
           }
       </div>
     );

@@ -13,10 +13,10 @@ class Login extends Component {
 		e.preventDefault();
 		const { target } = e;
 		let state = {...this.state};
-		state.user=target.user.value!=="" ? false : true;
-		state.password= target.password.value!=="" ? false : true;
+		state.user=target.user.value.length!==0 ? false : true;
+		state.password= target.password.value.length!==0 ? false : true;
 		if (state.error) delete state.error;
-		if (target.password.value!=="" && target.user.value!=="") {
+		if (target.password.value.length!==0 && target.user.value.length!==0) {
 			const body = {email:target.user.value, password: target.password.value};
 			post(apiUrls.login, body)
 			.then(() => {

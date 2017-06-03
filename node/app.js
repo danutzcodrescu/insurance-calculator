@@ -6,20 +6,24 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
-var users = require('./routes/usersRoute');
+const users = require('./routes/usersRoute');
+const cars = require('./routes/carsRoute');
 
 require('dotenv').config();
 
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
-var url = `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}`;
+const url = `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}`;
 mongoose.connect(url);
-var db = mongoose.connection;
+const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
 	console.log('Connection to the DB succesfull');
 	// const User = require('./models/UsersModel');
 	// User.create({email:'contact@qover.me', password:'guest'})
+	// const cars = [{name: "Audi", fee: 250, commission: 0.3}, {name: "BMW", fee:150, commission:0.4}, {name: "Porsche", fee:500, commission:0.7}];
+	// const Car = require('./models/CarModel');
+	// cars.forEach(car=>Car.create(car));
 });
 
 var app = express();
@@ -47,6 +51,7 @@ app.use(function(req, res, next) {
 
 app.use('/', index);
 app.use('/users', users);
+app.use('/cars', cars);
 
 
 // catch 404 and forward to error handler
