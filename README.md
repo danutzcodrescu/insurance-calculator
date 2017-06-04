@@ -11,5 +11,4 @@ Open two terminal windows:
 	> npm start
 - inside second terminal window:
 	> cd node
-	<br >
 	> npm start
