@@ -17,4 +17,11 @@ router.post('/', function(req, res, next) {
 	  })
 });
 
+router.get('/', function(req, res, next) {
+  	Insurance.aggregate({$project: {_id:0, User: 1,"Date&Time":'$createdAt', Name:1,  CarMake: 1, Value: 1, Status: 1, Price: 1 }}, (err, resp)=>{
+		if (err) next(err);
+		res.json(resp);
+	  });
+});
+
 module.exports = router;

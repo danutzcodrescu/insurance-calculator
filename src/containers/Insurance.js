@@ -20,6 +20,8 @@ class Insurance extends Component {
   getQuote(e) {
     e.preventDefault();
     const { target } = e;
+    let status = "Reject";
+    let price = 0;
     if (target.value.value < 5000 || target.value.value > 75000) {
         this.setState({
             ...this.state,
@@ -27,26 +29,28 @@ class Insurance extends Component {
         });
     } else {
         const car = this.state.cars.find(car=>car.name===target.carMake.value);
-        const price = car.fee + car.commission * target.value.value / 100;
+        price = car.fee + car.commission * target.value.value / 100;
+        status = "OK";
         this.setState({
             ...this.state,
             message: "The price of the insurance policy is: " + price.toLocaleString('en-US', {minimumFractionDigits: 2,
   maximumFractionDigits: 2})
         });
-        let obj = {};
-        obj.Name = target.name.value;
-        obj.CarMake = target.carMake.value;
-        obj.Value = target.value.value;
-        obj.Price = price;
-        post(apiUrls.insurances, obj, {headers: {'X-Token': this.props.token}})
-        .then(resp=>{
-            console.log('insurance added to DB succesfull')
-        })
-        .catch(err=>{
-            console.error(err);
-            alert('There was a problem on the backend. Please try to submit the insurancy policy to DB again.');
-        })
     }
+    let obj = {};
+    obj.Name = target.name.value;
+    obj.CarMake = target.carMake.value;
+    obj.Value = target.value.value;
+    obj.Price = price;
+    obj.Status = status;
+    post(apiUrls.insurances, obj, {headers: {'X-Token': this.props.token}})
+    .then(resp=>{
+        console.log('insurance added to DB succesfull')
+    })
+    .catch(err=>{
+        console.error(err);
+        alert('There was a problem on the backend. Please try to submit the insurancy policy to DB again.');
+    })
   }
 
   reset() {
