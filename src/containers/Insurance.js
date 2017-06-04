@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { get, post } from 'axios';
 import apiUrls from '../api/api';
+import '../css/App.css';
 
 class Insurance extends Component {
 
@@ -54,31 +55,55 @@ class Insurance extends Component {
   }
 
   reset() {
-    this.form.reset();
     if (this.state.message) {
-        const state = {...this.state};
-        delete state.message;
-        this.setState(state);
+        this.setState({...this.state, message:undefined});
     }
+    this.form.reset();
+    
   }
 
   render() {
     const options = this.state.cars.map(car=>
         <option key={car.name} value={car.name}>{car.name}</option>
     );
+    let cssClass = null;
+    if (this.state.message) {
+        cssClass = (this.form.value.value<5000 || this.form.value.value>75000) ? "alert alert-warning" : "alert alert-success";
+    }
     return (
-      <div>
-          <button onClick={()=>this.props.logout(false)}>Logout</button>
+      <div className="container">
+          <div className="row menu">
+            <button className="btn btn-info pull-right" onClick={()=>this.props.logout(false)}>Logout</button>
+            <a className="btn btn-info col-md-2" rel="noopener noreferrer" target="_blank" href={apiUrls.insurances}>All insurance policies</a>
+          </div>
           <form onSubmit={(e)=>this.getQuote(e)} ref={(form)=>this.form=form}>
-            <input type="text" name="name" placeholder="Name" />
-            <select name="carMake">    
-                {options}
-            </select>
-            <input type="number" step="0.01" name="value" placeholder="Car value" />
-            <button type="submit">GET PRICE</button>
-            <button onClick={()=>this.reset()}>Start over</button>
+            <div className="row">
+                <label htmlFor="name" className="col-md-2 label-control">Name</label>
+                <div className="col-md-8">
+                    <input className="form-control" type="text" id="name" name="name" placeholder="Name" required />
+                </div>   
+            </div>
+            <div className="row">
+                <label className="col-md-2 label-control">Car make</label>
+                <div className="col-md-8">
+                    <select name="carMake">    
+                        {options}
+                    </select>
+                </div>    
+            </div>
+            <div className="row">
+                <label htmlFor="value" className="col-md-2 label-control">Value of the car <small>including VAT</small></label>
+                <div className="col-md-8">
+                    <input className="form-control" id="value" type="number" step="0.01" name="value" placeholder="Car value" required/>
+                </div>   
+            </div> 
+            <button className="btn btn-primary" type="submit">GET PRICE</button>
           </form>
-          <p style={{display: this.state.message ? "block" : "none"}}>{this.state.message}</p>
+          <button className="btn btn-warning reset" onClick={()=>this.reset()}>Start over</button>
+          {this.state.message && 
+            <p className={cssClass}>{this.state.message}</p>
+          }
+          
       </div>
     );
   }

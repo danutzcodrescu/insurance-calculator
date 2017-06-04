@@ -23,10 +23,9 @@ class Login extends Component {
 				this.props.login(true, resp.data);
 			})
 			.catch(err=>{
-				this.setState({
-					...this.state,
-					error: true
-				})
+				console.log(err);
+				state.error = true;
+				this.setState(state);
 			})
 
 		} else {
@@ -38,30 +37,33 @@ class Login extends Component {
 
     return (
       <form onSubmit={(e)=>this.login(e)}>
-        <div className="row">
-		    <div className="small-12 columns">
-		      <div className="row">
-		        <div className="small-2 columns">
-		          <label htmlFor="user" className="right inline">User</label>
-		        </div>
-		        <div className="small-4 columns">
-		          <input type="text" name="user" id="user" placeholder="Username" />
-		          {this.state.user && 
-		          <small className="error">User field cannot be empty</small>}	
-		        </div>
-		        <div className="small-2 columns">
-		          <label htmlFor="password" className="right inline">Password</label>
-		        </div>
-		        <div className="small-4 columns">
-		          <input type="password" name="password" id="password" placeholder="Password" />
-		          {this.state.password && 
-		          <small className="error">Password cannot be empty</small>}	
-		        </div>
-		      </div>
-		    </div>
-		    <button type="submit" className="button radius">Login</button>
-		    {this.state.error && <small className="error">Invalid username or password</small>}	
-		</div>
+        <div className={this.state.user ? "form-group has-error has-feedback" : "form-group"}>
+          <label htmlFor="user" className="col-md-1 control-label">User:</label>
+          <div className="col-md-4">
+          	<input className="form-control" type="email" name="user" id="user" placeholder="Username" />
+          	{this.state.user && 
+          	 <div className="row">
+          	 	<small className="alert alert-danger">User field cannot be empty</small>
+          	 </div>
+          	}  	
+          </div>	
+        </div>
+        <div className={this.state.password ? "form-group has-error has-feedback" : "form-group"}>
+          <label htmlFor="password" className="col-md-1 control-label">Password:</label>
+          <div className="col-md-4">
+          	<input className="form-control" type="password" name="password" id="password" placeholder="Password" />
+          	{this.state.password && 
+          		<div className="row">
+          			<small className="alert alert-danger">Password cannot be empty</small>
+          		</div>
+	        }
+          </div>
+        </div>
+	      
+	    <button type="submit" className="btn btn-primary">Login</button>
+	    <div className="form-group">
+		    {this.state.error && <small className="col-md-offset-1 col-md-4 alert alert-danger">Invalid username or password</small>}	
+	    </div>	
       </form>
     );
   }

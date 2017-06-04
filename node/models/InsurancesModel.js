@@ -15,7 +15,7 @@ InsuranceSchema.post('save', function () {
     const insurance = this;
     if (insurance.Status==="OK") {
 		const { Name, CarMake, Value, Price } = insurance;
-		sendMail("danutzcodrescu@gmail.com", Name, CarMake, Value, Price);
+		sendMail("contact@qover.me", Name, CarMake, Value, Price);
 	}
 });
 	
