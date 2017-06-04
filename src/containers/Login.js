@@ -19,8 +19,8 @@ class Login extends Component {
 		if (target.password.value.length!==0 && target.user.value.length!==0) {
 			const body = {email:target.user.value, password: target.password.value};
 			post(apiUrls.login, body)
-			.then(() => {
-				this.props.login(true);
+			.then((resp) => {
+				this.props.login(true, resp.data);
 			})
 			.catch(err=>{
 				this.setState({

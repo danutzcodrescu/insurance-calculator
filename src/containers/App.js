@@ -8,11 +8,16 @@ class App extends Component {
     logged: false
   }
 
-  status = (logged) => {
-    this.setState({
-      ...this.state,
-      logged
-    });
+  status = (logged, token=null) => {
+    let state = {...this.state};
+    if (logged) {
+      state.token = token;
+      
+    } else {
+      delete state.token;
+    }
+    state.logged = logged;
+    this.setState(state);
   }
 
   render() {
@@ -22,7 +27,7 @@ class App extends Component {
               <Login login={this.status} />
           }
           {this.state.logged &&
-              <Insurance logout={this.status} />
+              <Insurance token={this.state.token} logout={this.status} />
           }
       </div>
     );

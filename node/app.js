@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index');
 const users = require('./routes/usersRoute');
 const cars = require('./routes/carsRoute');
+const insurances = require('./routes/insurancesRoute');
 
 require('dotenv').config();
 
@@ -45,13 +46,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
   res.header('Access-Control-Allow-Methods', 'GET, POST');
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, X-Token");
   next();
 });
 
 app.use('/', index);
 app.use('/users', users);
 app.use('/cars', cars);
+app.use('/insurances', insurances);
 
 
 // catch 404 and forward to error handler
